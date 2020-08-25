@@ -1,6 +1,6 @@
 document.getElementById("generate").addEventListener("click", performAction);
 
-import { performAction } from './js/app.js'
+import { performAction } from './js/app'
 
 export {
  performAction
