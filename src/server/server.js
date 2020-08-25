@@ -19,7 +19,7 @@ const cors = require("cors");
 app.use(cors());
 // Initialize the main project folder
 app.use(express.static("dist"));
-const port = 3000;
+const port = 8080;
 
 
 // Setup Server
@@ -27,16 +27,15 @@ const server = app.listen(port, listening);
 // Callback to debug
 function listening() {
     console.log("server running");
-    console.log("running on localhost: 3000");
+    console.log("running on localhost: 8080");
     console.log("You did it! :) ");
 };
 
 // Initialize all route with a callback function
 app.get('/all', sendData);
-
-})
 // Callback function to complete GET '/all'
 function sendData(req, res) {
+  console.log("project data ------- ", projectData);
     res.send(projectData);
 }
 // Post Route

@@ -6,8 +6,8 @@ let newDate = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear();
 
 
 // Personal API Key for OpenWeatherMap API
-let baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
-let apiKey = "&units=imperial&APPID=d0ee12581822ccc9e0e9f83fac9c5df8";
+let baseURL = "http://api.geonames.org/postalCodeSearch?postalcode=9011&maxRows=10";
+let apiKey = "&username=i3ecca";
 // Event listener to add function to existing HTML DOM element
 document.getElementById("generate").addEventListener("click", performAction);
 /* Function called by event listener */
@@ -70,14 +70,17 @@ const updateUI = async () => {
         const allData = await request.json();
         console.log(allData);
 
+
         // update new entry values
         document.getElementById('date').innerHTML = allData.test.date;
         document.getElementById('temp').innerHTML = allData.test.temp;
         document.getElementById('content').innerHTML = allData.test.content;
-    } catch (error) {
+    }
+
+    catch (error) {
         console.log("error", error);
     }
 };
 
 
-export { performAction }
+export { performAction };
