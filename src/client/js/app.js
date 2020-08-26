@@ -3,21 +3,34 @@
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear();
+var difference;
+//this function takes the selected date, converts and finds difference between today's date and selected date//
+function countdown(){
+  let selectedDate = document.getElementById("start").value;
+  selectedDate = new Date(selectedDate.replace(/-/g, "/"));
+  console.log(selectedDate);
+  let todayDate = new Date();
+  difference = Math.abs(selectedDate - todayDate);
+  difference = Math.floor(difference / (60*60*24*1000));
+  console.log(difference);
 
+};
 
-// Personal API Key for OpenWeatherMap API
+// Personal API Key for Geonames //
 let baseURL = "http://api.geonames.org/searchJSON?q=";
 let apiKey = "&maxRows=01&username=i3ecca";
 
 
 // Event listener to add function to existing HTML DOM element
 document.getElementById("generate").addEventListener("click", performAction);
+document.getElementById("start").addEventListener("change", countdown);
 /* Function called by event listener */
 function performAction(e) {
     const enteredCity = document.getElementById("city").value;
     const howFeeling = document.getElementById("feelings").value;
 
-    getWeather(baseURL, enteredCity, apiKey)
+
+    getCoordinates(baseURL, enteredCity, apiKey)
         .then(function(data) {
             console.log(data);
             //add data to POST request
@@ -32,7 +45,7 @@ function performAction(e) {
 };
 
 /* Function to GET Web API Data*/
-const getWeather = async (baseURL, enteredCity, apiKey) => {
+const getCoordinates = async (baseURL, enteredCity, apiKey) => {
     const res = await fetch(baseURL + enteredCity + apiKey);
     console.log(res);
     try {
@@ -80,6 +93,7 @@ const updateUI = async () => {
         document.getElementById('temp').innerHTML = allData.test.lat;
         document.getElementById('temp').innerHTML += allData.test.lng;
         document.getElementById('content').innerHTML = allData.test.content;
+        document.getElementById("daysLeft").innerHTML = difference;
     }
 
     catch (error) {
