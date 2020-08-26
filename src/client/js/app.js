@@ -6,22 +6,24 @@ let newDate = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear();
 
 
 // Personal API Key for OpenWeatherMap API
-let baseURL = "http://api.geonames.org/postalCodeSearch?postalcode=9011&maxRows=10";
-let apiKey = "&username=i3ecca";
+let baseURL = "http://api.geonames.org/searchJSON?q=";
+let apiKey = "&maxRows=01&username=i3ecca";
+
+
 // Event listener to add function to existing HTML DOM element
 document.getElementById("generate").addEventListener("click", performAction);
 /* Function called by event listener */
 function performAction(e) {
-    const enteredZip = document.getElementById("zip").value;
+    const enteredCity = document.getElementById("city").value;
     const howFeeling = document.getElementById("feelings").value;
 
-    getWeather(baseURL, enteredZip, apiKey)
+    getWeather(baseURL, enteredCity, apiKey)
         .then(function(data) {
             console.log(data);
             //add data to POST request
             postData("/add", {
                 date: "Date: " + newDate,
-                temp: "Temperature: " + data.main.temp + "°F",
+                coordinates: "Latitude: " + data.geonames[0].lat + "Longitude:" + data.geonames[0].lng ,
                 content: "Feeling: " + howFeeling
             });
             updateUI();
@@ -29,8 +31,8 @@ function performAction(e) {
 };
 
 /* Function to GET Web API Data*/
-const getWeather = async (baseURL, enteredZip, apikey) => {
-    const res = await fetch(baseURL + enteredZip + apikey);
+const getWeather = async (baseURL, enteredCity, apiKey) => {
+    const res = await fetch(baseURL + enteredCity + apiKey);
     console.log(res);
     try {
         const data = await res.json();
@@ -55,7 +57,7 @@ const postData = async (url = "", data = {}) => {
         },
         body: JSON.stringify({
             date: data.date,
-            temp: data.temp,
+            temp: data.coordinates,
             content: data.content
         })
     })
