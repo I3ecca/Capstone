@@ -23,7 +23,8 @@ function performAction(e) {
             //add data to POST request
             postData("/add", {
                 date: "Date: " + newDate,
-                coordinates: "Latitude: " + data.geonames[0].lat + "Longitude:" + data.geonames[0].lng ,
+                latitude: "Latitude: " + data.geonames[0].lat,
+                longitude: "Longitude:" + data.geonames[0].lng,
                 content: "Feeling: " + howFeeling
             });
             updateUI();
@@ -57,7 +58,8 @@ const postData = async (url = "", data = {}) => {
         },
         body: JSON.stringify({
             date: data.date,
-            temp: data.coordinates,
+            lat: data.latitude,
+            lng: data.longitude,
             content: data.content
         })
     })
@@ -75,7 +77,8 @@ const updateUI = async () => {
 
         // update new entry values
         document.getElementById('date').innerHTML = allData.test.date;
-        document.getElementById('temp').innerHTML = allData.test.temp;
+        document.getElementById('temp').innerHTML = allData.test.lat;
+        document.getElementById('temp').innerHTML += allData.test.lng;
         document.getElementById('content').innerHTML = allData.test.content;
     }
 

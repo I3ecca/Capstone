@@ -48,7 +48,8 @@ function postData(req, res) {
 
     let postEntry = {
         date: req.body.date,
-        temp: req.body.temp,
+        lat: req.body.lat,
+        lng: req.body.lng,
         content: req.body.content
     }
 
