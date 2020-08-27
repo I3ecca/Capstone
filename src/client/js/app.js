@@ -1,12 +1,13 @@
 /* Global Variables */
-
+var difference;
+var selectedDate;
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear();
-var difference;
+let newDate = (d.getMonth() +1 ) + '/' + d.getDate() + '/' + d.getFullYear();
+
 //this function takes the selected date, converts and finds difference between today's date and selected date//
 function countdown(){
-  let selectedDate = document.getElementById("start").value;
+  selectedDate = document.getElementById("start").value;
   selectedDate = new Date(selectedDate.replace(/-/g, "/"));
   console.log(selectedDate);
   let todayDate = new Date();
@@ -34,13 +35,19 @@ function performAction(e) {
         .then(function(data) {
             console.log(data);
             //add data to POST request
+            console.log("The value of NewDate", newDate )
             postData("/add", {
                 date: "Date: " + newDate,
                 latitude: "Latitude: " + data.geonames[0].lat,
                 longitude: "Longitude:" + data.geonames[0].lng,
                 content: "Feeling: " + howFeeling
             });
-            updateUI();
+            getWeather(data.geonames[0].lat,data.geonames[0].lng,"&key=61d5d974bf03412997232040306efb56")
+            .then(function(data) {
+                console.log(data);
+                //add data to POST request
+                console.log("The value of NewDate", newDate )
+            });
         })
 };
 
@@ -100,6 +107,78 @@ const updateUI = async () => {
         console.log("error", error);
     }
 };
+
+
+
+/* Function to GET Web API Data for weatherBit*/
+const getWeather = async (lat, lng, apiKey) => {
+  if(difference <= 7){
+    var weatherCurrentBaseUrl= "https://api.weatherbit.io/v2.0/current?";
+    const res = await fetch(weatherCurrentBaseUrl + "lat=" + lat + "&lon=" + lng + apiKey);
+    console.log(res);
+    try {
+        const data = await res.json();
+        console.log(data);
+        return data;
+    }
+    // appropriately handle the error //
+    catch (error) {
+        console.log("error", error);
+    }
+
+  }
+
+  else{
+    var weatherHistoricalBaseUrl= "https://api.weatherbit.io/v2.0/history/daily?";
+    var endDate= new Date(selectedDate);
+    console.log(endDate);
+    console.log(selectedDate);
+    endDate.setDate(endDate.getDate()+1);
+    console.log(endDate);
+    console.log(selectedDate);
+    // endDate= endDate.toString();
+    console.log(newDate);
+    var endDate = (new Date().getFullYear()-1) + '-' + (endDate.getMonth() +1) + '-' + endDate.getDate();
+    console.log(endDate);
+    // let startDate = (selectedDate.replace(/\//g, "-"));
+
+    console.log(selectedDate);
+    let startDate = (new Date().getFullYear()-1) + '-' + (selectedDate.getMonth() +1) + '-' + selectedDate.getDate()
+    // var dateHolder = startDate.split('-');
+    // var temp = dateHolder[1];
+    // dateHolder[1]=dateHolder[0];
+    // dateHolder[0]=dateHolder[2];
+    // dateholder[2]=temp;
+    // dateHolder.join('-');
+    console.log(startDate);
+
+      const res = await fetch(weatherHistoricalBaseUrl + "lat=" + lat + "&lon=" + lng + "&start_date=" + startDate + "&end_date=" + endDate + apiKey);
+      console.log(res);
+      try {
+          const data = await res.json();
+          console.log(data);
+          return data;
+      }
+      // appropriately handle the error //
+      catch (error) {
+          console.log("error", error);
+      }
+
+  }
+}
+
+// function countdown(){
+//   selectedDate = document.getElementById("start").value;
+//   selectedDate = new Date(selectedDate.replace(/-/g, "/"));
+//   console.log(selectedDate);
+//   let todayDate = new Date();
+//   difference = Math.abs(selectedDate - todayDate);
+//   difference = Math.floor(difference / (60*60*24*1000));
+//   console.log(difference);
+//
+// };
+
+
 
 
 export { performAction };
