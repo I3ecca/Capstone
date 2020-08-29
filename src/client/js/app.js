@@ -46,6 +46,19 @@ function performAction(e) {
             .then(function(data) {
                 console.log(data);
                 //add data to POST request
+                //if within week,find current weather//
+                if(difference <= 7){
+                console.log(selectedDate);
+                document.getElementById('tempDataHeader').innerHTML = "Weather currently is:";
+                document.getElementById('tempmax').innerHTML = "Current Temperature:  " + CelsiusToFahrenheit(data.data[0].temp) + "°F";
+              }
+              //else, get a historical weather for how weather is typically on this date//
+                else{
+                document.getElementById('tempDataHeader').innerHTML = "Typical weather for this time is:";
+                document.getElementById('tempmax').innerHTML = "Max Temperature:  " + CelsiusToFahrenheit(data.data[0].max_temp) + "°F";
+                document.getElementById('tempmin').innerHTML = "Min Temperature:  " + CelsiusToFahrenheit(data.data[0].min_temp) + "°F";
+              }
+
                 console.log("The value of NewDate", newDate )
             });
         })
@@ -179,6 +192,9 @@ const getWeather = async (lat, lng, apiKey) => {
 // };
 
 
+function CelsiusToFahrenheit(celsius) {
+  return Math.floor((celsius * 9/5) +32);
+};
 
 
 export { performAction };
