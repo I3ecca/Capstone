@@ -117,9 +117,9 @@ const getWeather = async(lat, lng, apiKey) => {
 		var endDate = new Date(selectedDate);
 		endDate.setDate(endDate.getDate() + 1);
 		// endDate= endDate.toString();
-		var endDate = (new Date().getFullYear() - 1) + '-' + (endDate.getMonth() + 1) + '-' + endDate.getDate();
+		var endDate = (endDate.getFullYear() - 1) + '-' + (endDate.getMonth() + 1) + '-' + endDate.getDate();
 		// let startDate = (selectedDate.replace(/\//g, "-"));
-		let startDate = (new Date().getFullYear() - 1) + '-' + (selectedDate.getMonth() + 1) + '-' + selectedDate.getDate()
+		let startDate = (new Date().getFullYear() - 1) + '-' + (selectedDate.getMonth() + 1) + '-' + selectedDate.getDate();
 		const res = await fetch(weatherHistoricalBaseUrl + "lat=" + lat + "&lon=" + lng + "&start_date=" + startDate + "&end_date=" + endDate + apiKey);
 		try {
 			const data = await res.json();
