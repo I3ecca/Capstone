@@ -6,12 +6,12 @@ body {
 	display: grid;
 	grid-auto-rows: minmax(150px, auto);
 	/* grid-template-columns:  */
-	height: 100vh;
+	height: auto;
 	background: #FFF0F5;
 	color: #BC8F8F;
 	justify-content: center;
 	grid-gap: 1em;
-	font-size: 20px;
+	font-size: 30px;
 	font-family: 'Oswald', sans-serif;
 }
 .holder {
@@ -104,5 +104,9 @@ button:focus {
 }
 
 img{
-	float: left;
+	align-self: center;
+}
+
+.buttonHolder{
+	align-items: center;
 }
