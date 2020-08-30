@@ -1,10 +1,7 @@
-# Weather-Journal App Project
+Hello!
 
-## Overview
-This project requires you to create an asynchronous web app that uses Web API and user data to dynamically update the UI. 
+Welcome to my project. Thanks for taking the time to review.
 
-## Instructions
-This will require modifying the `server.js` file and the `website/app.js` file. You can see `index.html` for element references, and once you are finished with the project steps, you can use `style.css` to style your application to customized perfection.
+This is a travel app that takes a destination and a date and return the current weather or the historical weather and an image related to the location.
 
-## Extras
-If you are interested in testing your code as you go, you can use `tests.js` as a template for writing and running some basic tests for your code.
+It works by assessing the place inputted and converts them into coordinates via the geonames api. It then takes those coordinates and gets the weather via the weatherbit api. From there, the info from weather bit helps the pixabay api grab the city name and display a related image to the user interface.
