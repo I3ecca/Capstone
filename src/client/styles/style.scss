@@ -7,8 +7,8 @@ body {
 	grid-auto-rows: minmax(150px, auto);
 	/* grid-template-columns:  */
 	height: 100vh;
-	background: #d4d9d8;
-	color: #2b5c56;
+	background: #FFF0F5;
+	color: #BC8F8F;
 	justify-content: center;
 	grid-gap: 1em;
 	font-size: 20px;
@@ -18,7 +18,7 @@ body {
 	display: flex;
 }
 .entry {
-	background: #e6fafa;
+	background: #fff0f5;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	border-width: thick;
@@ -26,6 +26,7 @@ body {
 #entryHolder {} #date {} #temp {} #content {} .headline {
 	font-size: 50px;
 	text-decoration: underline;
+	flex-direction: column;
 }
 .title {
 	float: left;
@@ -41,7 +42,7 @@ input {
 	display: block;
 	height: 60px;
 	width: 320px;
-	background: #e6fafa;
+	background: #FFFFE0;
 	color: #335252;
 	font-size: 20px;
 	font-family: 'Oswald', sans-serif;
@@ -51,7 +52,7 @@ input {
 button {
 	width: 200px;
 	height: 50px;
-	background: #3b4a6b;
+	background:#bc8f8f;
 	color: #fffff8;
 	font-size: 26px;
 	font-family: 'Oswald', sans-serif;
@@ -62,7 +63,7 @@ button {
 button:hover {
 	/* font-size: 30px; */
 	box-shadow: 4px 8px 10px #fff;
-	color: #61ffff;
+	color: 	#FF00FF;
 }
 h1 {
 	font-size: 36px;
@@ -100,4 +101,8 @@ button:focus {
 	/* Microsoft Edge */
 	color: #f0d43a;
 	font-family: 'Oswald', sans-serif;
+}
+
+img{
+	float: left;
 }

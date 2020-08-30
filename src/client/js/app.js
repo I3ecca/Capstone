@@ -28,7 +28,6 @@ document.getElementById("start").addEventListener("change", countdown);
 /* Function called by event listener */
 function performAction(e) {
     const enteredCity = document.getElementById("city").value;
-    const howFeeling = document.getElementById("feelings").value;
 
 
     getCoordinates(baseURL, enteredCity, apiKey)
@@ -40,7 +39,6 @@ function performAction(e) {
                 date: "Date: " + newDate,
                 latitude: "Latitude: " + data.geonames[0].lat,
                 longitude: "Longitude:" + data.geonames[0].lng,
-                content: "Feeling: " + howFeeling
             });
             getWeather(data.geonames[0].lat,data.geonames[0].lng,"&key=61d5d974bf03412997232040306efb56")
             .then(function(data) {
@@ -49,14 +47,19 @@ function performAction(e) {
                 //if within week,find current weather//
                 if(difference <= 7){
                 console.log(selectedDate);
-                document.getElementById('tempDataHeader').innerHTML = "Weather currently is:";
-                document.getElementById('tempmax').innerHTML = "Current Temperature:  " + CelsiusToFahrenheit(data.data[0].temp) + "°F";
+                document.getElementById('tempDataHeader').innerHTML = "Weather currently for " + data.data[0].city_name + " is: ";
+                document.getElementById('basicWeather').innerHTML = data.data[0].weather.description + " with a current temperature of " + CelsiusToFahrenheit(data.data[0].temp) + "°F";
+
+                getPhoto(data.data[0].city_name);
+
+
               }
               //else, get a historical weather for how weather is typically on this date//
                 else{
-                document.getElementById('tempDataHeader').innerHTML = "Typical weather for this time is:";
-                document.getElementById('tempmax').innerHTML = "Max Temperature:  " + CelsiusToFahrenheit(data.data[0].max_temp) + "°F";
-                document.getElementById('tempmin').innerHTML = "Min Temperature:  " + CelsiusToFahrenheit(data.data[0].min_temp) + "°F";
+                document.getElementById('tempDataHeader').innerHTML = "Typical weather for " + data.city_name + " around this time is: ";
+                document.getElementById('basicWeather').innerHTML = data.data[0].weather.description + " with an average temperature of " + CelsiusToFahrenheit(data.data[0].temp) + "°F";
+                
+                getPhoto(data.data[0].city_name);
               }
 
                 console.log("The value of NewDate", newDate )
@@ -142,7 +145,7 @@ const getWeather = async (lat, lng, apiKey) => {
   }
 
   else{
-    var weatherHistoricalBaseUrl= "https://api.weatherbit.io/v2.0/history/daily?";
+    var weatherHistoricalBaseUrl= "https://api.weatherbit.io/v2.0/history/hourly?";
     var endDate= new Date(selectedDate);
     console.log(endDate);
     console.log(selectedDate);
@@ -195,6 +198,31 @@ const getWeather = async (lat, lng, apiKey) => {
 function CelsiusToFahrenheit(celsius) {
   return Math.floor((celsius * 9/5) +32);
 };
+
+
+
+const getPhoto = async (enteredCity) => {
+    const res = await fetch("https://pixabay.com/api/?key=18090116-2b1b8d103ff35b260976c7b3c&q=" + enteredCity + "&image_type=photo&pretty=true");
+    console.log(res);
+    try {
+        const data = await res.json();
+        console.log(data);
+
+
+        var img = document.createElement('img');
+        img.src = data.hits[0].largeImageURL;
+        img.style.height='300px';
+        img.style.width="auto";
+        document.getElementById('photo').innerHTML = "";
+        document.getElementById('photo').appendChild(img);
+
+        return data;
+    }
+    // appropriately handle the error //
+    catch (error) {
+        console.log("error", error);
+    }
+}
 
 
 export { performAction };
